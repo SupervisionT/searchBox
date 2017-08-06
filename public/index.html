@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	<title>Search Box</title>
+
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/pelias-leaflet-geocoder.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.1.0/dist/leaflet.css" integrity="sha512-wcw6ts8Anuw10Mzh9Ytw4pylW8+NAD4ch3lqm9lzAsTxg0GFeJgoAtxuCLREZSC5lUXdVyo/7yfsqFjQ4S+aKw==" crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.1.0/dist/leaflet.js" integrity="sha512-mNqn2Wg7tSToJhvHcqfzLMU6J4mkOImSPTxVZAdo+lcPlk+GhZmYgACEe0x35K7YzW1zJ7XyJV/TT1MrdXvMcA==" crossorigin=""></script>
+  <style>
+          body {
+              padding: 0;
+              margin: 0;
+          }
+          html, body, #mymap {
+              height: 100%;
+              width: 100%;
+          }
+      </style>
+</head>
+<body>
+
+<div id="mymap"></div>
+<script src="/pelias-leaflet-geocoder.js"></script>
+<script>
+
+	var mymap = L.map('mymap').setView([46.49839225859763, 2.9003906250000004], 6);
+
+	L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+		maxZoom: 14,
+    minZoom: 4,
+		attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+			'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+			'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+		id: 'mapbox.streets'
+	}).addTo(mymap);
+    // parameters for the Pelias geocoder
+    var southWest = L.latLng(51.49506473014368, 9.316406250000002),
+        northEast = L.latLng(41.65649719441145, -2.6367187500000004),
+        mapBounds = L.latLngBounds(southWest, northEast);
+
+    var geocoderOptions = {
+        bounds: mapBounds,
+        placeholder : 'Search for an address',
+        position: 'topright'
+    };
+  L.control.geocoder('search-9FVHbsE', geocoderOptions).addTo(mymap);
+</script>
+
+
+
+
+</body>
+</html>
