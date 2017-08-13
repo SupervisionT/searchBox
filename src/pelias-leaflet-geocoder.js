@@ -279,22 +279,18 @@
     },
 
     showMarker: function (text, coords) {
-      console.log('coords',coords, text);
       this.removeMarkers();
-
       var geo = [coords[1], coords[0]];
       // make xhr requiest with the coords and get the text results
       var oReq = new XMLHttpRequest();
       var self = this;
       oReq.onreadystatechange = function(){
         if (this.readyState == 4 && this.status == 200) {
-          console.log('this.responseText', this.responseText);
           self._map.setView(geo, self._map.getZoom() || 8);
 
           var markerOptions = (typeof self.options.markers === 'object') ? self.options.markers : {};
 
           if (self.options.markers) {
-            console.log('geo:', geo);
             self.marker = new L.marker(geo, markerOptions).bindPopup(this.responseText); // eslint-disable-line new-cap
             self._map.addLayer(self.marker);
             self.markers.push(self.marker);
