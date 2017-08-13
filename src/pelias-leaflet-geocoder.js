@@ -285,20 +285,26 @@
       var geo = [coords[1], coords[0]];
       // make xhr requiest with the coords and get the text results
       var oReq = new XMLHttpRequest();
+      var self = this;
+      oReq.onreadystatechange = function(){
+        if (this.readyState == 4 && this.status == 200) {
+          console.log('this.responseText', this.responseText);
+          self._map.setView(geo, self._map.getZoom() || 8);
+
+          var markerOptions = (typeof self.options.markers === 'object') ? self.options.markers : {};
+
+          if (self.options.markers) {
+            console.log('geo:', geo);
+            self.marker = new L.marker(geo, markerOptions).bindPopup(this.responseText); // eslint-disable-line new-cap
+            self._map.addLayer(self.marker);
+            self.markers.push(self.marker);
+            self.marker.openPopup();
+          }
+        }
+      };
       oReq.open("POST", "/Coverege", true);
       oReq.send(JSON.stringify(coords));
 
-      this._map.setView(geo, this._map.getZoom() || 8);
-
-      var markerOptions = (typeof this.options.markers === 'object') ? this.options.markers : {};
-
-      if (this.options.markers) {
-        console.log('geo:', geo);
-        this.marker = new L.marker(geo, markerOptions).bindPopup('No 4G Coverege'); // eslint-disable-line new-cap
-        this._map.addLayer(this.marker);
-        this.markers.push(this.marker);
-        this.marker.openPopup();
-      }
     },
 
     setSelectedResult: function () {
